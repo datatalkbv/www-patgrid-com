@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Patgrid - Find the prior art that traditional searches miss. Semantic patent search across 160M+ patents with automated relevance analysis and interactive heatmaps.">
+    <title>Patgrid | Find Prior Art Others Miss</title>
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="static/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="static/favicon-96x96.png">
+    <link rel="icon" type="image/x-icon" href="static/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="static/apple-touch-icon.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet">
+    
+    <!-- Line Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css">
+    
+    <style>
+        :root {
+            --primary-blue: #2B5BE2;
+            --primary-blue-dark: #1e4bc7;
+            --primary-blue-light: #4a75f0;
+            --text-dark: #1a1a1a;
+            --text-gray: #4a4a4a;
+            --text-light: #6b7280;
+            --bg-light: #f8f9fc;
+            --bg-white: #ffffff;
+            --border-light: #e5e7eb;
+            --gradient-start: #2B5BE2;
+            --gradient-end: #1e3a8a;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: var(--bg-white);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .logo {
+            font-family: 'Funnel Display', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        .logo span:first-child {
+            color: var(--text-dark);
+        }
+
+        .logo span:last-child {
+            color: var(--primary-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-cta {
+            background: var(--primary-blue);
+            color: white !important;
+            padding: 10px 24px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .nav-cta:hover {
+            background: var(--primary-blue-dark);
+            transform: translateY(-1px);
+        }
+
+        .nav-cta-secondary {
+            color: var(--primary-blue) !important;
+            font-weight: 600;
+        }
+
+        .nav-cta-secondary:hover {
+            text-decoration: underline;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 160px 0 100px;
+            background: linear-gradient(180deg, var(--bg-light) 0%, var(--bg-white) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -25%;
+            width: 80%;
+            height: 150%;
+            background: radial-gradient(ellipse at center, rgba(43, 91, 226, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text {
+            max-width: 560px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(43, 91, 226, 0.1);
+            color: var(--primary-blue);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .hero-badge i {
+            font-size: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 24px;
+            color: var(--text-dark);
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 .highlight {
+            color: var(--primary-blue);
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(43, 91, 226, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-blue-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(43, 91, 226, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--bg-white);
+            color: var(--text-dark);
+            border: 2px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 60px 0;
+            background: var(--bg-white);
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Fraunces', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        /* Trusted By Section */
+        .trusted-by {
+            padding: 60px 0;
+            background: var(--bg-white);
+        }
+
+        .trusted-by-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .trusted-by-header p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .trusted-by-logos {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+
+        .trusted-by-logos::before,
+        .trusted-by-logos::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .trusted-by-logos::before {
+            left: 0;
+            background: linear-gradient(to right, var(--bg-white), transparent);
+        }
+
+        .trusted-by-logos::after {
+            right: 0;
+            background: linear-gradient(to left, var(--bg-white), transparent);
+        }
+
+        .logo-track {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+            animation: scroll-left 25s linear infinite;
+            width: max-content;
+        }
+
+        .logo-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .trusted-by-logo {
+            height: 80px;
+            width: auto;
+            opacity: 0.7;
+            transition: opacity 0.3s ease, filter 0.3s ease;
+            filter: grayscale(100%);
+            flex-shrink: 0;
+        }
+
+        .trusted-by-logo:hover {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 120px 0;
+            background: var(--bg-white);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 64px;
+        }
+
+        .section-label {
+            display: inline-block;
+            color: var(--primary-blue);
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+        }
+
+        .section-header h2 {
+            font-size: 2.75rem;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .section-header p {
+            font-size: 1.125rem;
+            color: var(--text-gray);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .feature-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 40px 32px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: transparent;
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-4px);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 24px;
+            object-fit: contain;
+        }
+
+        .feature-card h3 {
+            font-size: 1.375rem;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .feature-card p {
+            color: var(--text-gray);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 120px 0;
+            background: var(--bg-light);
+        }
+
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 32px;
+            background: var(--bg-white);
+            padding: 32px 40px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .step-item:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateX(8px);
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .step-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .step-content p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        /* Solutions Section */
+        .solutions {
+            padding: 120px 0;
+            background: var(--bg-white);
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .solution-card {
+            background: linear-gradient(135deg, #f8f9fc 0%, #ffffff 100%);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 48px 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .solution-card:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-8px);
+        }
+
+        .solution-icon {
+            width: 72px;
+            height: 72px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .solution-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .solution-card h3 {
+            font-size: 1.375rem;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        .solution-card p {
+            color: var(--text-gray);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .solution-features {
+            list-style: none;
+            text-align: left;
+        }
+
+        .solution-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        .solution-features li i {
+            color: var(--primary-blue);
+            font-size: 1rem;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 120px 0;
+            background: linear-gradient(180deg, var(--bg-light) 0%, var(--bg-white) 100%);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: var(--bg-white);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-xl);
+            padding: 48px 36px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary-blue);
+            box-shadow: 0 8px 40px rgba(43, 91, 226, 0.2);
+            transform: scale(1.05);
+        }
+
+        .pricing-card:hover {
+            box-shadow: var(--shadow-xl);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-blue);
+            color: white;
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .pricing-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .pricing-header .price {
+            font-family: 'Fraunces', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .pricing-header .price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-gray);
+        }
+
+        .pricing-header .price-note {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            color: var(--text-gray);
+        }
+
+        .pricing-features li i {
+            color: var(--primary-blue);
+            font-size: 1.125rem;
+            margin-top: 2px;
+        }
+
+        .pricing-card .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Founders Section */
+        .founders {
+            padding: 120px 0;
+            background: var(--bg-white);
+        }
+
+        .founders-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 64px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .founder-card {
+            text-align: center;
+        }
+
+        .founder-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 24px;
+            border: 4px solid var(--bg-light);
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+
+        .founder-card:hover .founder-image {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .founder-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+            color: var(--text-dark);
+        }
+
+        .founder-title {
+            color: var(--primary-blue);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .founder-bio {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .founder-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .founder-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--bg-light);
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .founder-links a:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .founder-links i {
+            font-size: 1.25rem;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 120px 0;
+            background: var(--bg-light);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 24px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            text-align: left;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: all 0.2s ease;
+        }
+
+        .faq-question:hover {
+            color: var(--primary-blue);
+        }
+
+        .faq-question i {
+            font-size: 1.25rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer p {
+            padding: 0 28px 24px;
+            color: var(--text-gray);
+            line-height: 1.7;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 120px 0;
+            background: var(--bg-white);
+        }
+
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            background: var(--bg-light);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 40px 32px;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .contact-card-featured {
+            background: var(--bg-white);
+            border: 2px solid var(--primary-blue);
+        }
+
+        .contact-card-featured .contact-card-icon {
+            background: var(--primary-blue);
+        }
+
+        .contact-card-featured .contact-card-icon i {
+            color: white;
+        }
+
+        .contact-card-featured h3 {
+            color: var(--primary-blue);
+        }
+
+        .contact-card-featured .contact-card-action {
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+
+        .contact-card-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--bg-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .contact-card-icon i {
+            font-size: 1.75rem;
+            color: var(--primary-blue);
+        }
+
+        .contact-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .contact-card > p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+
+        .contact-card-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary-blue);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .contact-card-action i {
+            transition: transform 0.2s ease;
+        }
+
+        .contact-card:hover .contact-card-action i {
+            transform: translateX(4px);
+        }
+
+        .contact-phones {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .contact-phones a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        .contact-phones a:hover {
+            color: var(--primary-blue);
+        }
+
+        .phone-region {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-blue);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .cta-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta h2 {
+            font-size: 2.75rem;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta .btn-primary {
+            background: white;
+            color: var(--primary-blue);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta .btn-primary:hover {
+            background: var(--bg-light);
+            transform: translateY(-2px);
+        }
+
+        .cta .btn-secondary {
+            background: transparent;
+            color: white;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .cta .btn-secondary:hover {
+            border-color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 80px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 64px;
+            margin-bottom: 64px;
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 20px;
+        }
+
+        .footer-brand .logo span:first-child {
+            color: white;
+        }
+
+        .footer-brand p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .footer-social a:hover {
+            background: var(--primary-blue);
+        }
+
+        .footer-column h4 {
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column ul a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-column ul a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-bottom p {
+            font-size: 0.875rem;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-legal a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-legal a:hover {
+            color: white;
+        }
+
+        .footer-disclaimer {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.6;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                text-align: center;
+            }
+
+            .hero-text {
+                max-width: 100%;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .hero-image {
+                order: -1;
+            }
+
+            .hero-image img {
+                max-width: 350px;
+            }
+
+            .features-grid,
+            .solutions-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 32px;
+            }
+
+            .contact-cards {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg-white);
+                flex-direction: column;
+                padding: 24px;
+                gap: 16px;
+                border-bottom: 1px solid var(--border-light);
+                box-shadow: var(--shadow-lg);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero {
+                padding: 120px 0 80px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .founders-grid {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+
+            .cta h2 {
+                font-size: 2rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .step-item {
+                flex-direction: column;
+                text-align: center;
+                padding: 24px;
+            }
+
+            .contact-form {
+                padding: 32px 24px;
+            }
+
+            .pricing-card {
+                padding: 36px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span>pat</span><span>grid</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#solutions">Solutions</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="https://outlook.office.com/book/Patgrid@datatalk.be" target="_blank" rel="noopener" class="nav-cta-secondary">Book a Demo</a></li>
+                <li><a href="mailto:mail@patgrid.com" class="nav-cta">Contact Us</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <i class="las la-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Find the prior art that <span class="highlight">others miss</span></h1>
+                    <p class="hero-description">A "lightbulb" can be an "illumination device", "electric lamp", or "luminaire". Traditional searches find one. We find them all. Our semantic engine searches by meaning—not just words—across 160M+ patents and 1B+ documents, then shows you what matters in an interactive heatmap.</p>
+                    <div class="hero-cta">
+                        <a href="https://outlook.office.com/book/Patgrid@datatalk.be" target="_blank" rel="noopener" class="btn btn-primary">
+                            <i class="las la-calendar"></i>
+                            Book a Demo
+                        </a>
+                        <a href="mailto:mail@patgrid.com" class="btn btn-secondary">
+                            <i class="las la-envelope"></i>
+                            Contact Us
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="static/leeslamp.png" alt="Historic light bulb patent drawing">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">160M+</div>
+                    <div class="stat-label">Patent Documents</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1B+</div>
+                    <div class="stat-label">Non-Patent Literature Documents</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">72+</div>
+                    <div class="stat-label">Languages Supported</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">40%</div>
+                    <div class="stat-label">More Relevant Results</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted By Section -->
+    <section class="trusted-by">
+        <div class="container">
+            <div class="trusted-by-header">
+                <p>Trusted by leading organizations</p>
+            </div>
+            <div class="trusted-by-logos">
+                <div class="logo-track">
+                    <img src="static/bmw.svg" alt="BMW" class="trusted-by-logo">
+                    <img src="static/maucher_jenkins.svg" alt="Maucher Jenkins" class="trusted-by-logo">
+                    <img src="static/uexkull_stolberg.svg" alt="Uexküll & Stolberg" class="trusted-by-logo">
+                    <img src="static/electrolux.svg" alt="Electrolux" class="trusted-by-logo">
+                    <img src="static/punch_powertrain.png" alt="Punch Powertrain" class="trusted-by-logo">
+                    <!-- Duplicate for seamless loop -->
+                    <img src="static/bmw.svg" alt="BMW" class="trusted-by-logo">
+                    <img src="static/maucher_jenkins.svg" alt="Maucher Jenkins" class="trusted-by-logo">
+                    <img src="static/uexkull_stolberg.svg" alt="Uexküll & Stolberg" class="trusted-by-logo">
+                    <img src="static/electrolux.svg" alt="Electrolux" class="trusted-by-logo">
+                    <img src="static/punch_powertrain.png" alt="Punch Powertrain" class="trusted-by-logo">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Why We Find More</span>
+                <h2>Search by meaning, not just words</h2>
+                <p>Inventors describe the same concept in countless ways. Traditional searches miss what they can't predict. We don't.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <img src="static/lego_icon_transparent.png" alt="Semantic Search" class="feature-icon">
+                    <h3>Meaning, Not Words</h3>
+                    <p>Our semantic engine understands concepts, not just terms. Find prior art across languages and terminologies—even when inventors describe the same thing completely differently.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="static/lamp_icon_transparent.png" alt="Interactive Heatmap" class="feature-icon">
+                    <h3>The Helicopter View</h3>
+                    <p>See the entire patent landscape at a glance. Our interactive heatmap visualizes relevance across all results, so you instantly know where to focus your attention.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="static/slinky_icon_transparent.png" alt="Automated Analysis" class="feature-icon">
+                    <h3>Automated Relevance Analysis</h3>
+                    <p>Every document scored and ranked against your claims. No more drowning in results—get a clear picture of what's relevant and why, with verbatim quotes as evidence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">How It Works</span>
+                <h2>From question to clarity in hours</h2>
+                <p>Submit your patent or invention. Get back a complete landscape with every relevant document found, scored, and mapped.</p>
+            </div>
+            <div class="steps-container">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Submit Your Patent or Invention</h3>
+                        <p>Enter a patent number or describe your invention. Our system automatically extracts key claims and technical features for analysis.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Semantic Search Finds Everything</h3>
+                        <p>Our engine searches by meaning across 160M+ patents and 1B+ documents—finding relevant prior art regardless of terminology, language, or phrasing.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Explore the Interactive Heatmap</h3>
+                        <p>See everything at once. Our heatmap shows relevance across all results, letting you zoom from helicopter view to specific documents in seconds.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Export Professional Reports</h3>
+                        <p>Generate court-ready documents including claim charts, novelty reports, and FTO opinions in formats suitable for US and EU proceedings.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section class="solutions" id="solutions">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Solutions</span>
+                <h2>Tailored for your industry</h2>
+                <p>Whether you're a law firm, R&D team, or IP investor, Patgrid adapts to your specific needs.</p>
+            </div>
+            <div class="solutions-grid">
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="las la-balance-scale"></i>
+                    </div>
+                    <h3>For Law Firms</h3>
+                    <p>Accelerate patent prosecution and litigation with comprehensive searches and professional claim charts.</p>
+                    <ul class="solution-features">
+                        <li><i class="las la-check"></i> Invalidation & opposition searches</li>
+                        <li><i class="las la-check"></i> Evidence of use searches</li>
+                        <li><i class="las la-check"></i> Freedom-to-operate analysis</li>
+                        <li><i class="las la-check"></i> Court-ready claim charts (US & EPO)</li>
+                    </ul>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="las la-flask"></i>
+                    </div>
+                    <h3>For R&D Teams</h3>
+                    <p>Validate innovation before filing and identify potential conflicts early to focus development on truly novel aspects.</p>
+                    <ul class="solution-features">
+                        <li><i class="las la-check"></i> Novelty searches</li>
+                        <li><i class="las la-check"></i> Freedom-to-operate assessment</li>
+                        <li><i class="las la-check"></i> Patent landscape mapping</li>
+                        <li><i class="las la-check"></i> White space identification</li>
+                    </ul>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="las la-chart-line"></i>
+                    </div>
+                    <h3>For IP Investors</h3>
+                    <p>Make informed investment decisions with comprehensive portfolio analysis and market intelligence.</p>
+                    <ul class="solution-features">
+                        <li><i class="las la-check"></i> Portfolio screening & landscaping</li>
+                        <li><i class="las la-check"></i> Patent valuation support</li>
+                        <li><i class="las la-check"></i> Competitive intelligence</li>
+                        <li><i class="las la-check"></i> Technology trend analysis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Founders Section -->
+    <section class="founders" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">About Us</span>
+                <h2>Meet the founders</h2>
+                <p>15+ years of combined experience in AI and enterprise software development, with a proven track record of building successful companies.</p>
+            </div>
+            <div class="founders-grid">
+                <div class="founder-card">
+                    <img src="static/thomas.jpg" alt="Thomas van Turnhout" class="founder-image">
+                    <h3>Thomas van Turnhout</h3>
+                    <div class="founder-title">Co-founder</div>
+                    <p class="founder-bio">Civil Engineer from KU Leuven with deep technical expertise from his work at Proximus. Previously co-founded Automagica, acquired by Netcall plc in 2020.</p>
+                    <div class="founder-links">
+                        <a href="mailto:thomas@patgrid.com" aria-label="Email Thomas"><i class="las la-envelope"></i></a>
+                        <a href="https://linkedin.com/in/thomasvanturnhout" target="_blank" rel="noopener" aria-label="Thomas on LinkedIn"><i class="lab la-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="founder-card">
+                    <img src="static/koen.jpg" alt="Koen van Eijk" class="founder-image">
+                    <h3>Koen van Eijk</h3>
+                    <div class="founder-title">Co-founder</div>
+                    <p class="founder-bio">Masters in Finance, Accounting & Business Management. Former KPMG consultant. Previously co-founded Automagica, acquired by Netcall plc in 2020.</p>
+                    <div class="founder-links">
+                        <a href="mailto:koen@patgrid.com" aria-label="Email Koen"><i class="las la-envelope"></i></a>
+                        <a href="https://linkedin.com/in/koenvaneijk" target="_blank" rel="noopener" aria-label="Koen on LinkedIn"><i class="lab la-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">FAQ</span>
+                <h2>Frequently asked questions</h2>
+                <p>Get answers to common questions about Patgrid and AI-powered patent analysis.</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How is Patgrid different from traditional patent search tools?
+                        <i class="las la-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Traditional tools require you to guess which words inventors might have used. Patgrid searches by meaning—understanding that a "fastening mechanism" and a "clip assembly" might describe the same thing. This semantic approach typically finds 40% more relevant prior art. Plus, every result is automatically analyzed and scored, so you see what matters instantly in our interactive heatmap.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can AI replace patent attorneys?
+                        <i class="las la-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>No, AI augments rather than replaces patent attorneys. Patgrid automates time-consuming research tasks, allowing attorneys to focus on high-value analysis, strategy, and client advice. The final professional judgment always remains with qualified human experts.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What patent databases do you search?
+                        <i class="las la-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We search all major patent offices including USPTO, EPO, WIPO, JPO, and CNIPA—covering 160M+ patent documents from 72+ jurisdictions. We also search 1B+ non-patent literature documents including scientific articles, technical standards, and academic papers for comprehensive prior art coverage.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do you find prior art that traditional searches miss?
+                        <i class="las la-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Traditional searches only find exact matches to your query terms. But inventors describe the same concept in countless ways—across languages, industries, and time periods. Our semantic engine understands meaning, so it finds relevant documents regardless of terminology. Every result includes verbatim quotes showing exactly why it's relevant.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is Patgrid a substitute for legal advice?
+                        <i class="las la-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>No. Patgrid provides AI-powered patent analysis tools for research purposes only. All analyses should be reviewed by qualified patent attorneys or IP professionals before making any legal or business decisions.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How secure is my data?
+                        <i class="las la-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We maintain enterprise-grade security with EU data residency (AWS Paris Region), SOC 1/2/3 compliance, and ISO 27001/27017/27018/9001 alignment. All data is encrypted and we are fully GDPR compliant.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Stop missing critical prior art</h2>
+                <p>See what traditional searches can't find. Get a complete patent landscape with interactive heatmap in minutes.</p>
+                <div class="cta-buttons">
+                    <a href="https://outlook.office.com/book/Patgrid@datatalk.be" target="_blank" rel="noopener" class="btn btn-primary">
+                        <i class="las la-calendar"></i>
+                        Book a Demo
+                    </a>
+                    <a href="mailto:mail@patgrid.com" class="btn btn-secondary">
+                        <i class="las la-envelope"></i>
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Contact</span>
+                <h2>Get in touch</h2>
+                <p>Have questions about Patgrid or ready to start your patent analysis? We'd love to hear from you.</p>
+            </div>
+            <div class="contact-cards">
+                <a href="https://outlook.office.com/book/Patgrid@datatalk.be" target="_blank" rel="noopener" class="contact-card contact-card-featured">
+                    <div class="contact-card-icon">
+                        <i class="las la-calendar"></i>
+                    </div>
+                    <h3>Book a Demo</h3>
+                    <p>Schedule a 30-minute call to see Patgrid in action</p>
+                    <span class="contact-card-action">Schedule now <i class="las la-arrow-right"></i></span>
+                </a>
+                <a href="mailto:mail@patgrid.com" class="contact-card">
+                    <div class="contact-card-icon">
+                        <i class="las la-envelope"></i>
+                    </div>
+                    <h3>Email Us</h3>
+                    <p>mail@patgrid.com</p>
+                    <span class="contact-card-action">Send email <i class="las la-arrow-right"></i></span>
+                </a>
+                <div class="contact-card">
+                    <div class="contact-card-icon">
+                        <i class="las la-phone"></i>
+                    </div>
+                    <h3>Call Us</h3>
+                    <div class="contact-phones">
+                        <a href="tel:+15122889501"><span class="phone-region">US</span> +1 512 288 9501</a>
+                        <a href="tel:+32473576262"><span class="phone-region">EU</span> +32 473 57 62 62</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <span>pat</span><span>grid</span>
+                    </a>
+                    <p>Semantic patent search that finds what traditional searches miss. See the complete landscape in an interactive heatmap with automated relevance analysis.</p>
+                    <div class="footer-social">
+                        <a href="https://linkedin.com/company/patgrid" target="_blank" rel="noopener" aria-label="Patgrid on LinkedIn"><i class="lab la-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Solutions</h4>
+                    <ul>
+                        <li><a href="#solutions">Law Firms</a></li>
+                        <li><a href="#solutions">R&D Teams</a></li>
+                        <li><a href="#solutions">IP Investors</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Patgrid. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="https://datatalk.be/privacy" target="_blank" rel="noopener">Privacy Policy</a>
+                    <a href="https://datatalk.be/eula" target="_blank" rel="noopener">Terms of Service</a>
+                    <a href="https://datatalk.be/security" target="_blank" rel="noopener">Security</a>
+                </div>
+            </div>
+            <div class="footer-disclaimer">
+                Patgrid provides AI-powered patent analysis tools for research purposes only. We are not a law firm and do not provide legal advice. All analyses should be reviewed by qualified patent attorneys or intellectual property professionals before making any decisions. Use of our services does not create an attorney-client relationship.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.toggle('la-bars');
+            icon.classList.toggle('la-times');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                const icon = mobileMenuBtn.querySelector('i');
+                icon.classList.add('la-bars');
+                icon.classList.remove('la-times');
+            });
+        });
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-item').forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Close all other items
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                });
+                
+                // Toggle current item
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 80;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 50) {
+                nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                nav.style.boxShadow = 'none';
+            }
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe feature cards, solution cards, etc.
+        document.querySelectorAll('.feature-card, .solution-card, .pricing-card, .step-item, .founder-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
