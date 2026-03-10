@@ -553,6 +553,33 @@
             font-size: 1rem;
         }
 
+        /* Demo Video Section */
+        .demo-video {
+            padding: 120px 0;
+            background: var(--bg-white);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         /* Solutions Section */
         .solutions {
             padding: 120px 0;
@@ -1761,6 +1788,27 @@
                         <p>Generate court-ready documents including claim charts, novelty reports, and FTO opinions in formats suitable for US and EU proceedings.</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Video Section -->
+    <section class="demo-video" id="demo">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">See It In Action</span>
+                <h2>Watch a prior art search in 3 minutes</h2>
+                <p>See how Patgrid finds relevant prior art that traditional keyword searches miss.</p>
+            </div>
+            <div class="video-container">
+                <iframe 
+                    src="https://www.youtube.com/embed/rnYT8mgA2BQ" 
+                    title="Patgrid Prior Art Search Demo"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen>
+                </iframe>
             </div>
         </div>
     </section>
