@@ -1193,8 +1193,259 @@
             line-height: 1.6;
         }
 
+        /* Patent Landscape Section */
+        .landscape {
+            padding: 120px 0;
+            background: linear-gradient(180deg, var(--bg-white) 0%, var(--bg-light) 50%, var(--bg-white) 100%);
+        }
+
+        .landscape-intro {
+            max-width: 800px;
+            margin: 0 auto 60px;
+            text-align: center;
+        }
+
+        .landscape-intro-text {
+            font-size: 1.125rem;
+            color: var(--text-gray);
+            line-height: 1.8;
+        }
+
+        .landscape-intro-text strong {
+            color: var(--primary-blue);
+        }
+
+        .landscape-screenshots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 80px;
+        }
+
+        .screenshot-card {
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+
+        .screenshot-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .screenshot-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .screenshot-label {
+            padding: 16px 20px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-dark);
+            background: var(--bg-light);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .landscape-features {
+            margin-bottom: 80px;
+        }
+
+        .landscape-features h3,
+        .landscape-value h3 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        .landscape-features-intro,
+        .landscape-value-intro {
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 48px;
+        }
+
+        .landscape-features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .landscape-feature {
+            display: flex;
+            gap: 20px;
+            background: var(--bg-white);
+            padding: 28px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .landscape-feature:hover {
+            border-color: var(--primary-blue);
+            box-shadow: var(--shadow-md);
+        }
+
+        .landscape-feature-icon {
+            flex-shrink: 0;
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .landscape-feature-icon i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .landscape-feature-content h4 {
+            font-size: 1.125rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .landscape-feature-content p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .landscape-value {
+            margin-bottom: 80px;
+        }
+
+        .landscape-value-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        .landscape-value-card {
+            background: var(--bg-white);
+            padding: 32px 24px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .landscape-value-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: transparent;
+        }
+
+        .landscape-value-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(43, 91, 226, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .landscape-value-icon i {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+        }
+
+        .landscape-value-card h4 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .landscape-value-card p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .landscape-cta {
+            text-align: center;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            padding: 60px 40px;
+            border-radius: var(--radius-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .landscape-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .landscape-cta h3 {
+            color: white;
+            font-size: 1.75rem;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .landscape-cta p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 28px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .landscape-cta .btn {
+            position: relative;
+            z-index: 1;
+            background: white;
+            color: var(--primary-blue);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+        }
+
+        .landscape-cta .btn:hover {
+            background: var(--bg-light);
+            transform: translateY(-2px);
+        }
+
         /* Mobile Responsive */
+        @media (max-width: 1200px) {
+            .landscape-value-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
         @media (max-width: 1024px) {
+            .landscape-screenshots {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .landscape-features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .landscape-value-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
             .hero-content {
                 grid-template-columns: 1fr;
                 gap: 60px;
@@ -1246,6 +1497,19 @@
         }
 
         @media (max-width: 768px) {
+            .landscape-value-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .landscape-cta {
+                padding: 48px 24px;
+            }
+
+            .landscape-cta h3 {
+                font-size: 1.5rem;
+            }
             .nav-links {
                 display: none;
                 position: absolute;
@@ -1347,6 +1611,7 @@
             <ul class="nav-links" id="navLinks">
                 <li><a href="#features">Features</a></li>
                 <li><a href="#solutions">Solutions</a></li>
+                <li><a href="#landscape">Landscape Analysis</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li><a href="https://outlook.office.com/book/Patgrid@datatalk.be" target="_blank" rel="noopener" class="nav-cta-secondary">Book a Demo</a></li>
@@ -1552,6 +1817,152 @@
         </div>
     </section>
 
+    <!-- Patent Landscape Section -->
+    <section class="landscape" id="landscape">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">New Service</span>
+                <h2>Strategic Patent Landscape Analysis</h2>
+                <p>Decode the complex web of global innovation with comprehensive landscape reports that bridge raw patent data and executive strategy.</p>
+            </div>
+            
+            <div class="landscape-intro">
+                <div class="landscape-intro-text">
+                    <p>Our comprehensive landscape reports provide a <strong>360-degree view</strong> of any technology sector. By combining semantic AI search with big-data visualization, we help you make data-driven R&D and legal decisions.</p>
+                </div>
+            </div>
+
+            <div class="landscape-screenshots">
+                <div class="screenshot-card">
+                    <img src="static/front_page.png" alt="Patent Landscape Report Cover Page">
+                    <div class="screenshot-label">Executive Summary</div>
+                </div>
+                <div class="screenshot-card">
+                    <img src="static/cluster_page.png" alt="Technology Cluster Analysis">
+                    <div class="screenshot-label">Technology Clusters</div>
+                </div>
+                <div class="screenshot-card">
+                    <img src="static/heatmap_page.png" alt="Patent Landscape Heatmap">
+                    <div class="screenshot-label">Interactive Heatmap</div>
+                </div>
+            </div>
+
+            <div class="landscape-features">
+                <h3>What Our Reports Contain</h3>
+                <p class="landscape-features-intro">Each report is a deep-dive dossier that bridges the gap between raw patent data and executive strategy:</p>
+                
+                <div class="landscape-features-grid">
+                    <div class="landscape-feature">
+                        <div class="landscape-feature-icon">
+                            <i class="las la-project-diagram"></i>
+                        </div>
+                        <div class="landscape-feature-content">
+                            <h4>Technology Segmentation</h4>
+                            <p>Unsupervised machine learning (HDBSCAN) automatically groups patents into natural "Technology Clusters," revealing the true sub-domains of an industry.</p>
+                        </div>
+                    </div>
+                    <div class="landscape-feature">
+                        <div class="landscape-feature-icon">
+                            <i class="las la-chess"></i>
+                        </div>
+                        <div class="landscape-feature-content">
+                            <h4>Competitive Intelligence</h4>
+                            <p>Comprehensive leaderboards and "Competitor Territory Maps" show not just who has the most patents, but where their specific technical strengths lie.</p>
+                        </div>
+                    </div>
+                    <div class="landscape-feature">
+                        <div class="landscape-feature-icon">
+                            <i class="las la-tachometer-alt"></i>
+                        </div>
+                        <div class="landscape-feature-content">
+                            <h4>Innovation Velocity</h4>
+                            <p>Year-over-year filing trends identify whether a technology is emerging, maturing, or entering a period of decline.</p>
+                        </div>
+                    </div>
+                    <div class="landscape-feature">
+                        <div class="landscape-feature-icon">
+                            <i class="las la-globe-americas"></i>
+                        </div>
+                        <div class="landscape-feature-content">
+                            <h4>Geographic Footprint</h4>
+                            <p>Breakdown of where competitors are protecting their IP (US, China, Europe, etc.), signaling their intended commercial markets.</p>
+                        </div>
+                    </div>
+                    <div class="landscape-feature">
+                        <div class="landscape-feature-icon">
+                            <i class="las la-lightbulb"></i>
+                        </div>
+                        <div class="landscape-feature-content">
+                            <h4>White Space Analysis</h4>
+                            <p>Geometric gap analysis identifies "under-patented" areas—potential goldmines for new R&D and high-value patent filings.</p>
+                        </div>
+                    </div>
+                    <div class="landscape-feature">
+                        <div class="landscape-feature-icon">
+                            <i class="las la-route"></i>
+                        </div>
+                        <div class="landscape-feature-content">
+                            <h4>R&D Trajectory Tracking</h4>
+                            <p>Visual "Strategic Movement" analysis tracks how a competitor's research focus has shifted over time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="landscape-value">
+                <h3>The Value It Brings to Your Business</h3>
+                <p class="landscape-value-intro">A PatGrid report is more than a list of patents—it's a roadmap for competitive advantage:</p>
+                
+                <div class="landscape-value-grid">
+                    <div class="landscape-value-card">
+                        <div class="landscape-value-icon">
+                            <i class="las la-shield-alt"></i>
+                        </div>
+                        <h4>Mitigate Risk</h4>
+                        <p>Identify potential "patent thickets" and high-influence patents that may pose Freedom to Operate challenges.</p>
+                    </div>
+                    <div class="landscape-value-card">
+                        <div class="landscape-value-icon">
+                            <i class="las la-bullseye"></i>
+                        </div>
+                        <h4>Optimize R&D</h4>
+                        <p>Avoid "reinventing the wheel" by seeing what's already built and focusing resources on technological white spaces.</p>
+                    </div>
+                    <div class="landscape-value-card">
+                        <div class="landscape-value-icon">
+                            <i class="las la-handshake"></i>
+                        </div>
+                        <h4>M&A Scouting</h4>
+                        <p>Discover startups and non-traditional players with high-quality IP that could be ripe for acquisition.</p>
+                    </div>
+                    <div class="landscape-value-card">
+                        <div class="landscape-value-icon">
+                            <i class="las la-chart-bar"></i>
+                        </div>
+                        <h4>Benchmarking</h4>
+                        <p>Compare your portfolio's vitality against industry leaders to ensure your IP spending is efficient.</p>
+                    </div>
+                    <div class="landscape-value-card">
+                        <div class="landscape-value-icon">
+                            <i class="las la-door-open"></i>
+                        </div>
+                        <h4>Market Entry</h4>
+                        <p>Understand legal barriers in specific countries before launching a product internationally.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="landscape-cta">
+                <h3>Ready to see the complete picture?</h3>
+                <p>Request a custom Patent Landscape Analysis for your technology sector.</p>
+                <a href="mailto:mail@patgrid.com?subject=Patent%20Landscape%20Analysis%20Request" class="btn btn-primary">
+                    <i class="las la-envelope"></i>
+                    Request a Landscape Report
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Founders Section -->
     <section class="founders" id="about">
         <div class="container">
@@ -1737,6 +2148,7 @@
                         <li><a href="#solutions">Law Firms</a></li>
                         <li><a href="#solutions">R&D Teams</a></li>
                         <li><a href="#solutions">IP Investors</a></li>
+                        <li><a href="#landscape">Landscape Analysis</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -1847,7 +2259,7 @@
         }, observerOptions);
 
         // Observe feature cards, solution cards, etc.
-        document.querySelectorAll('.feature-card, .solution-card, .pricing-card, .step-item, .founder-card').forEach(el => {
+        document.querySelectorAll('.feature-card, .solution-card, .pricing-card, .step-item, .founder-card, .screenshot-card, .landscape-feature, .landscape-value-card').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
