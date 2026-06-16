@@ -238,6 +238,44 @@
             flex-wrap: wrap;
         }
 
+        /* Hero Trust Bar */
+        .hero-trust-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 28px;
+            padding: 12px 20px;
+            background: rgba(5, 150, 105, 0.06);
+            border: 1px solid rgba(5, 150, 105, 0.15);
+            border-radius: var(--radius-sm);
+        }
+
+        .hero-trust-icon {
+            flex-shrink: 0;
+            color: #059669;
+            font-size: 1.25rem;
+        }
+
+        .hero-trust-text {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            line-height: 1.5;
+        }
+
+        .hero-trust-text strong {
+            color: #065f46;
+        }
+
+        .hero-trust-text a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .hero-trust-text a:hover {
+            text-decoration: underline;
+        }
+
         .btn {
             display: inline-flex;
             align-items: center;
@@ -1451,6 +1489,153 @@
             transform: translateY(-2px);
         }
 
+        /* Case Studies / Proven Results Section */
+        .case-studies {
+            padding: 120px 0;
+            background: var(--bg-light);
+        }
+
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-bottom: 48px;
+        }
+
+        .case-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #059669, #34d399);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .case-card:hover {
+            border-color: transparent;
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-6px);
+        }
+
+        .case-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .case-company {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+
+        .case-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .case-outcome {
+            display: inline-block;
+            background: #ecfdf5;
+            color: #065f46;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            align-self: flex-start;
+        }
+
+        .case-stats {
+            background: var(--bg-light);
+            border: 1px solid var(--border-light);
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            color: var(--text-gray);
+            margin-bottom: 18px;
+            line-height: 1.7;
+        }
+
+        .case-stats strong {
+            color: var(--text-dark);
+        }
+
+        .case-quote {
+            font-size: 0.88rem;
+            color: var(--text-gray);
+            font-style: italic;
+            line-height: 1.65;
+            margin-bottom: 24px;
+            flex-grow: 1;
+            padding-left: 16px;
+            border-left: 3px solid rgba(43, 91, 226, 0.2);
+        }
+
+        .case-quote cite {
+            display: block;
+            margin-top: 8px;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.78rem;
+        }
+
+        .case-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .case-link:hover {
+            opacity: 0.8;
+            gap: 10px;
+        }
+
+        .case-link i {
+            font-size: 0.75rem;
+            transition: transform 0.2s ease;
+        }
+
+        .case-link:hover i {
+            transform: translateX(3px);
+        }
+
+        .case-studies-cta {
+            text-align: center;
+        }
+
+        .case-studies-cta p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 1200px) {
             .landscape-value-grid {
@@ -1501,6 +1686,14 @@
                 grid-template-columns: 1fr;
                 max-width: 500px;
                 margin: 0 auto;
+            }
+
+            .case-grid {
+                grid-template-columns: 1fr;
+                max-width: 480px;
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 40px;
             }
 
             .pricing-card.featured {
@@ -1638,6 +1831,7 @@
             <ul class="nav-links" id="navLinks">
                 <li><a href="#features">Features</a></li>
                 <li><a href="#solutions">Solutions</a></li>
+                <li><a href="#results">Results</a></li>
                 <li><a href="#landscape">Landscape Analysis</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#faq">FAQ</a></li>
@@ -1666,6 +1860,10 @@
                             <i class="las la-envelope"></i>
                             Contact Us
                         </a>
+                    </div>
+                    <div class="hero-trust-bar">
+                        <span class="hero-trust-icon"><i class="las la-check-circle"></i></span>
+                        <span class="hero-trust-text"><strong>Prior art missed by USPTO, JPO &amp; CNIPA</strong> — successfully challenged 3 granted patents at the EPO. <a href="#results">See the results &rarr;</a></span>
                     </div>
                 </div>
                 <div class="hero-image">
@@ -1809,6 +2007,84 @@
                     referrerpolicy="strict-origin-when-cross-origin" 
                     allowfullscreen>
                 </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proven Results / Case Studies Section -->
+    <section class="case-studies" id="results">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Proven Results</span>
+                <h2>Prior art that stopped EPO grants</h2>
+                <p>These patents had already been granted by the USPTO, JPO, or CNIPA. Our prior art submissions — missed by those offices — successfully challenged them at the European Patent Office.</p>
+            </div>
+
+            <div class="case-grid">
+                <!-- Case 1: Bytedance -->
+                <div class="case-card">
+                    <div class="case-company">Bytedance · Image Editing</div>
+                    <h3 class="case-title">Grant Halted at the Door</h3>
+                    <span class="case-outcome">All claims obvious</span>
+                    <div class="case-stats">
+                        <strong>Application:</strong> EP21860511<br>
+                        <strong>Already granted in:</strong> US, Japan<br>
+                        <strong>Prior art missed by:</strong> WIPO, USPTO, JPO
+                    </div>
+                    <blockquote class="case-quote">
+                        "The primary examiner cannot issue a R. 71(3) EPC communication in view of D4 introduced by the third party."
+                        <cite>EPO Examiner</cite>
+                    </blockquote>
+                    <a href="https://register.epo.org/application?number=EP21860511" target="_blank" rel="noopener" class="case-link">
+                        View on EPO Register <i class="las la-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Case 2: Mitsubishi -->
+                <div class="case-card">
+                    <div class="case-company">Mitsubishi · Industrial Robotics</div>
+                    <h3 class="case-title">Novelty Destroyed by a Single Document</h3>
+                    <span class="case-outcome">Anticipated by single doc</span>
+                    <div class="case-stats">
+                        <strong>Application:</strong> EP21853723<br>
+                        <strong>Already granted in:</strong> Japan<br>
+                        <strong>Prior art missed by:</strong> WIPO, USPTO, JPO
+                    </div>
+                    <blockquote class="case-quote">
+                        "D6 indeed discloses all the claimed features of the independent claims."
+                        <cite>EPO Examiner</cite>
+                    </blockquote>
+                    <a href="https://register.epo.org/application?number=EP21853723" target="_blank" rel="noopener" class="case-link">
+                        View on EPO Register <i class="las la-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Case 3: China Telecom -->
+                <div class="case-card">
+                    <div class="case-company">China Telecom · 5G Networks</div>
+                    <h3 class="case-title">Inventive Step Knocked Out Across the Board</h3>
+                    <span class="case-outcome">All claims lack inventive step</span>
+                    <div class="case-stats">
+                        <strong>Application:</strong> EP21939047<br>
+                        <strong>Already granted in:</strong> US, Japan, China<br>
+                        <strong>Prior art missed by:</strong> WIPO, USPTO, JPO, CNIPA
+                    </div>
+                    <blockquote class="case-quote">
+                        "The combination of D10 with this teaching from D11 would therefore be obvious to the skilled person."
+                        <cite>EPO Examiner</cite>
+                    </blockquote>
+                    <a href="https://register.epo.org/application?number=EP21939047" target="_blank" rel="noopener" class="case-link">
+                        View on EPO Register <i class="las la-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="case-studies-cta">
+                <p>Want to see how we could find prior art for your patents?</p>
+                <a href="mailto:mail@patgrid.com" class="btn btn-primary">
+                    <i class="las la-envelope"></i>
+                    Get Your Prior Art Search
+                </a>
             </div>
         </div>
     </section>
@@ -2196,6 +2472,7 @@
                         <li><a href="#solutions">Law Firms</a></li>
                         <li><a href="#solutions">R&D Teams</a></li>
                         <li><a href="#solutions">IP Investors</a></li>
+                        <li><a href="#results">Proven Results</a></li>
                         <li><a href="#landscape">Landscape Analysis</a></li>
                     </ul>
                 </div>
@@ -2307,7 +2584,7 @@
         }, observerOptions);
 
         // Observe feature cards, solution cards, etc.
-        document.querySelectorAll('.feature-card, .solution-card, .pricing-card, .step-item, .founder-card, .screenshot-card, .landscape-feature, .landscape-value-card').forEach(el => {
+        document.querySelectorAll('.feature-card, .solution-card, .pricing-card, .step-item, .founder-card, .screenshot-card, .landscape-feature, .landscape-value-card, .case-card').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
